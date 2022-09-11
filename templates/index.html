@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% from "bootstrap/form.html" import render_form %}
+
+{% block content %}
+    <div class="container jumbotron">
+    <div class="row">
+        <h2 class="text-center"> Добро пожаловать! </h2>
+        <p>
+            Вам предстоит поучаствовать в квесте; ваша цель сбежать из подземелья, Вы можете передвигаться сразу на несколько шагов. Удачи!
+            Нажмите кнопку "Начать" для того чтобы начать игру.
+        </p>
+    </div>
+    </div>
+    <div class="container">
+           <div class="row col-md-12">
+            {{ render_form(form)}}
+       </div>
+    </div>
+
+{% endblock %}
