@@ -27,12 +27,12 @@ def index():
 @app.route('/game/<int:finish>', methods=['GET', 'POST'])
 def game(finish=0):
     global gamer
-    # Костылик, защищающий сервер от обращения сразу сюда, без захода с главной страницы и без инициализации gamer
+    # Защищаем наш сервер от работы без инициализации переменной gamer
     try:
         gamer == 1
     except NameError:
         return redirect(url_for('index'))
-    # конец костыля
+
     game_class = TextQuest()
     game_form = GameForm()
 
@@ -53,7 +53,7 @@ def game(finish=0):
         flash(game_class.start_text(), "success")
         game_class.moves = 0
 
-    # Теперь если мы получили POST с движениями, надо их обработать.
+    # Обрабатываем команды игрока
     if request.method == "POST" and game_form.validate_on_submit():
         for move in range(game_form.moves.data):
             # Двигаем персонажа и выдаем сообщение
