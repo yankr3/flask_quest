@@ -3,12 +3,6 @@ from wtforms import IntegerField, SubmitField, SelectField, StringField
 from wtforms.validators import InputRequired, Length
 
 
-# Задаем секретный ключ
-class BaseConfig:
-    SECRET_KEY = "sdfksdfh6lks2jklb3nksd"
-    BOOTSTRAP_SERVE_LOCAL = True
-    DEBUG = False
-
 # Форма приветствия
 class StartForm(FlaskForm):
     gamer_name = StringField("Имя игрока", validators=[

@@ -1,15 +1,9 @@
-from flask import Flask, request, render_template, flash, redirect, url_for
-from projects.forms import BaseConfig, StartForm, FinishForm, GameForm
-from flask_bootstrap import Bootstrap
-from text_game import TextQuest
+from . import app
+from flask import request, render_template, flash, redirect, url_for
+from .projects.forms import StartForm, FinishForm, GameForm
+from .text_game import TextQuest
 
-
-app = Flask(__name__)
 global gamer
-
-
-app.config.from_object(BaseConfig)
-bootstrap = Bootstrap(app)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -27,11 +21,6 @@ def index():
 @app.route('/game/<int:finish>', methods=['GET', 'POST'])
 def game(finish=0):
     global gamer
-    # Защищаем наш сервер от работы без инициализации переменной gamer
-    try:
-        gamer == 1
-    except NameError:
-        return redirect(url_for('index'))
 
     game_class = TextQuest()
     game_form = GameForm()
@@ -41,9 +30,12 @@ def game(finish=0):
         finish_form = FinishForm()
         if request.method == "POST" and finish_form.validate_on_submit():
             return redirect(url_for('index'))
+        # Защищаем сервер от попытки сразу перейти на финишную форму, без инициализации Имени игрока
+        if game_class.moves <= 0:
+            return redirect(url_for('index'))
         return render_template("endgame.html",
                                gamer=gamer,
-                               moves = game_class.moves,
+                               moves=game_class.moves,
                                endgame_text=game_class.end_text(),
                                form=finish_form)
 
@@ -66,7 +58,3 @@ def game(finish=0):
             elif move_data == 3:
                 return redirect(url_for("game", finish=1))
     return render_template('game.html', form=game_form)
-
-
-if __name__ == '__main__':
-    app.run()

@@ -26,7 +26,7 @@ class TextQuest(metaclass=SingletonMeta):
         self._vertical_position = 1
         # Счетчик перемещений
         self.moves = -1
-        # Карта помещений, где вы уже были.
+        # Карта помещений, где вы уже были
         self._rooms_map = [[0 for y in range(2)] for x in range(3)]
         self._rooms_map[self._horizontal_position][self._vertical_position] = 1
         # Описания помещений
